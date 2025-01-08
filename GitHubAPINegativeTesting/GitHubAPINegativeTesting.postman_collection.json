@@ -1,0 +1,2650 @@
+{
+	"info": {
+		"_postman_id": "3967252f-f98a-48e9-9078-a2b6a719321e",
+		"name": "GitHubAPINegativeTesting",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37066334"
+	},
+	"item": [
+		{
+			"name": "Creation of Access Token using OAuth Authorization",
+			"item": [
+				{
+					"name": "Get Authorization Code (OAuth)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{urlGitHub}}login/oauth/authorize?client_id=<client_id>&redirect_uri=http://localhost:3000/callback&scope=public_repo, repo, delete_repo",
+							"host": [
+								"{{urlGitHub}}login"
+							],
+							"path": [
+								"oauth",
+								"authorize"
+							],
+							"query": [
+								{
+									"key": "client_id",
+									"value": "<client_id>"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "http://localhost:3000/callback"
+								},
+								{
+									"key": "scope",
+									"value": "public_repo, repo, delete_repo"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Access Token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{urlGitHub}}login/oauth/access_token?client_id=<client_id>&client_secret=<client_secret>&code=<code>",
+							"host": [
+								"{{urlGitHub}}login"
+							],
+							"path": [
+								"oauth",
+								"access_token"
+							],
+							"query": [
+								{
+									"key": "client_id",
+									"value": "<client_id>"
+								},
+								{
+									"key": "client_secret",
+									"value": "<client_secret>"
+								},
+								{
+									"key": "code",
+									"value": "<code>"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "List repositories for the authenticated user",
+			"item": [
+				{
+					"name": "400 Bad Request - Incorrect HTTP Method",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 400 Bad Request\", () => {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Response contains 'message' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"message\");",
+									"    pm.expect(jsonData.message).to.contain(\"Body should be a JSON object\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'documentation_url' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"documentation_url\");",
+									"    pm.expect(jsonData.documentation_url).to.contain(\"https://docs.github.com/rest/repos/repos#create-a-repository-for-the-authenticated-user\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'status' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"status\");",
+									"    pm.expect(jsonData.status).to.contain(\"400\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer <access_token>",
+								"type": "text"
+							},
+							{
+								"key": "X-GitHub-Api-Version",
+								"value": "2022-11-28",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/vnd.github.text-match+json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{urlApiGitHub}}user/repos?visibility=public&sort=created",
+							"host": [
+								"{{urlApiGitHub}}user"
+							],
+							"path": [
+								"repos"
+							],
+							"query": [
+								{
+									"key": "visibility",
+									"value": "public"
+								},
+								{
+									"key": "sort",
+									"value": "created"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "401 Unauthorized - Invalid Authentication",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 401 Unauthorized\", () => {",
+									"    pm.response.to.have.status(401);",
+									"});",
+									"",
+									"pm.test(\"Response contains 'message' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"message\");",
+									"    pm.expect(jsonData.message).to.contain(\"Bad credentials\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'documentation_url' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"documentation_url\");",
+									"    pm.expect(jsonData.documentation_url).to.contain(\"https://docs.github.com/rest\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'status' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"status\");",
+									"    pm.expect(jsonData.status).to.contain(\"401\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer <access_token>",
+								"type": "text"
+							},
+							{
+								"key": "X-GitHub-Api-Version",
+								"value": "2022-11-28",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/vnd.github.text-match+json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{urlApiGitHub}}user/repos?visibility=public&sort=created",
+							"host": [
+								"{{urlApiGitHub}}user"
+							],
+							"path": [
+								"repos"
+							],
+							"query": [
+								{
+									"key": "visibility",
+									"value": "public"
+								},
+								{
+									"key": "sort",
+									"value": "created"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "404 Not Found - Incorrect Endpoint",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 404 Not Found\", () => {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"pm.test(\"Response contains 'message' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"message\");",
+									"    pm.expect(jsonData.message).to.contain(\"Not Found\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'documentation_url' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"documentation_url\");",
+									"    pm.expect(jsonData.documentation_url).to.contain(\"https://docs.github.com/rest\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'status' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"status\");",
+									"    pm.expect(jsonData.status).to.contain(\"404\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer <access_token>",
+								"type": "text"
+							},
+							{
+								"key": "X-GitHub-Api-Version",
+								"value": "2022-11-28",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/vnd.github.text-match+json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{urlApiGitHub}}user/repo",
+							"host": [
+								"{{urlApiGitHub}}user"
+							],
+							"path": [
+								"repo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "404 Not Found - Incorrect HTTP Method",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 404 Not Found\", () => {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"pm.test(\"Response contains 'message' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"message\");",
+									"    pm.expect(jsonData.message).to.contain(\"Not Found\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'documentation_url' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"documentation_url\");",
+									"    pm.expect(jsonData.documentation_url).to.contain(\"https://docs.github.com/rest\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'status' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"status\");",
+									"    pm.expect(jsonData.status).to.contain(\"404\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer <access_token>",
+								"type": "text"
+							},
+							{
+								"key": "X-GitHub-Api-Version",
+								"value": "2022-11-28",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/vnd.github.text-match+json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{urlApiGitHub}}user/repos?visibility=public&sort=created",
+							"host": [
+								"{{urlApiGitHub}}user"
+							],
+							"path": [
+								"repos"
+							],
+							"query": [
+								{
+									"key": "visibility",
+									"value": "public"
+								},
+								{
+									"key": "sort",
+									"value": "created"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Create a repository for the authenticated user",
+			"item": [
+				{
+					"name": "400 Bad Request - Missing Required Input",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 400 Bad Request\", () => {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Response contains 'message' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"message\");",
+									"    pm.expect(jsonData.message).to.contain(\"Problems parsing JSON\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'documentation_url' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"documentation_url\");",
+									"    pm.expect(jsonData.documentation_url).to.contain(\"https://docs.github.com/rest/repos/repos#create-a-repository-for-the-authenticated-user\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'status' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"status\");",
+									"    pm.expect(jsonData.status).to.contain(\"400\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer <access_token>",
+								"type": "text"
+							},
+							{
+								"key": "X-GitHub-Api-Version",
+								"value": "2022-11-28",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/vnd.github.text-match+json",
+								"type": "text"
+							},
+							{
+								"key": "X-OAuth-Scopes",
+								"value": "public_repo, repo",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":,\n    \"description\": \"This repository contains API tests for CRUD operations on repositories, using the GitHub API in Postman.\",\n    \"homepage\": \"https://github.com\",\n    \"private\": false,\n    \"is_template\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlApiGitHub}}user/repos",
+							"host": [
+								"{{urlApiGitHub}}user"
+							],
+							"path": [
+								"repos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "401 Unauthorized - Invalid Authentication",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 401 Unauthorized\", () => {",
+									"    pm.response.to.have.status(401);",
+									"});",
+									"",
+									"pm.test(\"Response contains 'message' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"message\");",
+									"    pm.expect(jsonData.message).to.contain(\"Bad credentials\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'documentation_url' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"documentation_url\");",
+									"    pm.expect(jsonData.documentation_url).to.contain(\"https://docs.github.com/rest\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'status' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"status\");",
+									"    pm.expect(jsonData.status).to.contain(\"401\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer <access_token>",
+								"type": "text"
+							},
+							{
+								"key": "X-GitHub-Api-Version",
+								"value": "2022-11-28",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/vnd.github.text-match+json",
+								"type": "text"
+							},
+							{
+								"key": "X-OAuth-Scopes",
+								"value": "public_repo, repo",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"postman-github-api-repositories\",\n    \"description\": \"This repository contains API tests for CRUD operations on repositories, using the GitHub API in Postman.\",\n    \"homepage\": \"https://github.com\",\n    \"private\": false,\n    \"is_template\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlApiGitHub}}user/repos",
+							"host": [
+								"{{urlApiGitHub}}user"
+							],
+							"path": [
+								"repos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "404 Not Found - Incorrect Endpoint",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 404 Not Found \", () => {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"pm.test(\"Response contains 'message' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"message\");",
+									"    pm.expect(jsonData.message).to.contain(\"Not Found\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'documentation_url' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"documentation_url\");",
+									"    pm.expect(jsonData.documentation_url).to.contain(\"https://docs.github.com/rest\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'status' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"status\");",
+									"    pm.expect(jsonData.status).to.contain(\"404\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer <access_token>",
+								"type": "text"
+							},
+							{
+								"key": "X-GitHub-Api-Version",
+								"value": "2022-11-28",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/vnd.github.text-match+json",
+								"type": "text"
+							},
+							{
+								"key": "X-OAuth-Scopes",
+								"value": "public_repo, repo",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"postman-github-api-repositories\",\n    \"description\": \"This repository contains API tests for CRUD operations on repositories, using the GitHub API in Postman.\",\n    \"homepage\": \"https://github.com\",\n    \"private\": false,\n    \"is_template\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlApiGitHub}}user/rep0",
+							"host": [
+								"{{urlApiGitHub}}user"
+							],
+							"path": [
+								"rep0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "404 Not Found - Incorrect HTTP Method",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 404 Not Found \", () => {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"pm.test(\"Response contains 'message' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"message\");",
+									"    pm.expect(jsonData.message).to.contain(\"Not Found\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'documentation_url' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"documentation_url\");",
+									"    pm.expect(jsonData.documentation_url).to.contain(\"https://docs.github.com/rest\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'status' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"status\");",
+									"    pm.expect(jsonData.status).to.contain(\"404\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer <access_token>",
+								"type": "text"
+							},
+							{
+								"key": "X-GitHub-Api-Version",
+								"value": "2022-11-28",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/vnd.github.text-match+json",
+								"type": "text"
+							},
+							{
+								"key": "X-OAuth-Scopes",
+								"value": "public_repo, repo",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"postman-github-api-repositories\",\n    \"description\": \"This repository contains API tests for CRUD operations on repositories, using the GitHub API in Postman.\",\n    \"homepage\": \"https://github.com\",\n    \"private\": false,\n    \"is_template\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlApiGitHub}}user/repos",
+							"host": [
+								"{{urlApiGitHub}}user"
+							],
+							"path": [
+								"repos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "422 Unprocessable Entity - Invalid Data Types or Formats",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 422 Unprocessable Entity\", () => {",
+									"    pm.response.to.have.status(422);",
+									"});",
+									"",
+									"pm.test(\"Response contains 'message' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"message\");",
+									"    pm.expect(jsonData.message).to.contain(\"Repository creation failed.\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'errors' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"errors\");",
+									"    ",
+									"    jsonData.errors.forEach((field) => {",
+									"        pm.expect(field).to.have.property(\"resource\");",
+									"        pm.expect(field.resource).to.contain(\"Repository\");",
+									"",
+									"        if (field.code === \"missing_field\") {",
+									"            pm.expect(field).to.have.property(\"field\");",
+									"            pm.expect(field.field).to.contain(\"name\");",
+									"        }",
+									"     ",
+									"        else if (field.code === \"custom\") {",
+									"            pm.expect(field).to.have.property(\"field\");",
+									"            pm.expect(field.field).to.contain(\"name\");",
+									"",
+									"            pm.expect(field).to.have.property(\"message\");",
+									"            pm.expect(field.message).to.contain(\"name is too short (minimum is 1 character)\");",
+									"        }",
+									"    });",
+									"});",
+									"",
+									"pm.test(\"Response contains 'documentation_url' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"documentation_url\");",
+									"    pm.expect(jsonData.documentation_url).to.contain(\"https://docs.github.com/rest/repos/repos#create-a-repository-for-the-authenticated-user\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'status' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"status\");",
+									"    pm.expect(jsonData.status).to.contain(\"422\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer <access_token>",
+								"type": "text"
+							},
+							{
+								"key": "X-GitHub-Api-Version",
+								"value": "2022-11-28",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/vnd.github.text-match+json",
+								"type": "text"
+							},
+							{
+								"key": "X-OAuth-Scopes",
+								"value": "public_repo, repo",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"This repository contains API tests for CRUD operations on repositories, using the GitHub API in Postman.\",\n    \"homepage\": \"https://github.com\",\n    \"private\": false,\n    \"is_template\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlApiGitHub}}user/repos",
+							"host": [
+								"{{urlApiGitHub}}user"
+							],
+							"path": [
+								"repos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "List repositories for a user",
+			"item": [
+				{
+					"name": "401 Unauthorized - Invalid Authentication",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 401 Unauthorized\", () => {",
+									"    pm.response.to.have.status(401);",
+									"});",
+									"",
+									"pm.test(\"Response contains 'message' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"message\");",
+									"    pm.expect(jsonData.message).to.contain(\"Bad credentials\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'documentation_url' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"documentation_url\");",
+									"    pm.expect(jsonData.documentation_url).to.contain(\"https://docs.github.com/rest\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'status' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"status\");",
+									"    pm.expect(jsonData.status).to.contain(\"401\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer <access_token>",
+								"type": "text"
+							},
+							{
+								"key": "X-GitHub-Api-Version",
+								"value": "2022-11-28",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/vnd.github.text-match+json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{urlApiGitHub}}users/{{owner}}/repos?sort=updated",
+							"host": [
+								"{{urlApiGitHub}}users"
+							],
+							"path": [
+								"{{owner}}",
+								"repos"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "updated"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "404 Not Found - Non-existent Endpoint",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 404 Not Found\", () => {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"pm.test(\"Response contains 'message' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"message\");",
+									"    pm.expect(jsonData.message).to.contain(\"Not Found\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'documentation_url' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"documentation_url\");",
+									"    pm.expect(jsonData.documentation_url).to.contain(\"https://docs.github.com/rest\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'status' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"status\");",
+									"    pm.expect(jsonData.status).to.contain(\"404\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer <access_token>",
+								"type": "text"
+							},
+							{
+								"key": "X-GitHub-Api-Version",
+								"value": "2022-11-28",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/vnd.github.text-match+json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{urlApiGitHub}}users/{{owner}}/repo",
+							"host": [
+								"{{urlApiGitHub}}users"
+							],
+							"path": [
+								"{{owner}}",
+								"repo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "404 Not Found - Incorrect HTTP Method",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 404 Not Found\", () => {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"pm.test(\"Response contains 'message' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"message\");",
+									"    pm.expect(jsonData.message).to.contain(\"Not Found\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'documentation_url' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"documentation_url\");",
+									"    pm.expect(jsonData.documentation_url).to.contain(\"https://docs.github.com/rest\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'status' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"status\");",
+									"    pm.expect(jsonData.status).to.contain(\"404\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer <access_token>",
+								"type": "text"
+							},
+							{
+								"key": "X-GitHub-Api-Version",
+								"value": "2022-11-28",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/vnd.github.text-match+json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{urlApiGitHub}}users/{{owner}}/repos?sort=updated",
+							"host": [
+								"{{urlApiGitHub}}users"
+							],
+							"path": [
+								"{{owner}}",
+								"repos"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "updated"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Update a repository",
+			"item": [
+				{
+					"name": "401 Unauthorized - Invalid Authentication",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 401 Bad Request\", () => {",
+									"    pm.response.to.have.status(401);",
+									"});",
+									"",
+									"pm.test(\"Response contains 'message' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"message\");",
+									"    pm.expect(jsonData.message).to.contain(\"Bad credentials\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'documentation_url' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"documentation_url\");",
+									"    pm.expect(jsonData.documentation_url).to.contain(\"https://docs.github.com/rest\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'status' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"status\");",
+									"    pm.expect(jsonData.status).to.contain(\"401\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer <access_token>",
+								"type": "text"
+							},
+							{
+								"key": "X-GitHub-Api-Version",
+								"value": "2022-11-28",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/vnd.github.text-match+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"postman-github-api-repositories\",\n    \"description\": \"Updated - This repository contains API tests for basic CRUD operations on repositories, using the GitHub API in Postman.\",\n    \"homepage\": \"https://github.com\",\n    \"private\": false,\n    \"has_issues\": true,\n    \"has_projects\": true,\n    \"has_wiki\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlApiGitHub}}repos/{{owner}}/{{repo}}",
+							"host": [
+								"{{urlApiGitHub}}repos"
+							],
+							"path": [
+								"{{owner}}",
+								"{{repo}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "404 Not Found - Incorrect Endpoint",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 404 Not Found\", () => {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"pm.test(\"Response contains 'message' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"message\");",
+									"    pm.expect(jsonData.message).to.contain(\"Not Found\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'documentation_url' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"documentation_url\");",
+									"    pm.expect(jsonData.documentation_url).to.contain(\"https://docs.github.com/rest\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'status' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"status\");",
+									"    pm.expect(jsonData.status).to.contain(\"404\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true,
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer <access_token>",
+								"type": "text"
+							},
+							{
+								"key": "X-GitHub-Api-Version",
+								"value": "2022-11-28",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/vnd.github.text-match+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"postman-github-api-repositories\",\n    \"description\": \"Updated - This repository contains API tests for basic CRUD operations on repositories, using the GitHub API in Postman.\",\n    \"homepage\": \"https://github.com\",\n    \"private\": false,\n    \"has_issues\": true,\n    \"has_projects\": true,\n    \"has_wiki\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlApiGitHub}}repo/{{owner}}/{{repo}}",
+							"host": [
+								"{{urlApiGitHub}}repo"
+							],
+							"path": [
+								"{{owner}}",
+								"{{repo}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "404 Not Found - Incorrect HTTP Method",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 404 Not Found\", () => {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"pm.test(\"Response contains 'message' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"message\");",
+									"    pm.expect(jsonData.message).to.contain(\"Not Found\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'documentation_url' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"documentation_url\");",
+									"    pm.expect(jsonData.documentation_url).to.contain(\"https://docs.github.com/rest\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'status' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"status\");",
+									"    pm.expect(jsonData.status).to.contain(\"404\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer <access_token>",
+								"type": "text"
+							},
+							{
+								"key": "X-GitHub-Api-Version",
+								"value": "2022-11-28",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/vnd.github.text-match+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"postman-github-api-repositories\",\n    \"description\": \"Updated - This repository contains API tests for basic CRUD operations on repositories, using the GitHub API in Postman.\",\n    \"homepage\": \"https://github.com\",\n    \"private\": false,\n    \"has_issues\": true,\n    \"has_projects\": true,\n    \"has_wiki\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlApiGitHub}}repos/{{owner}}/{{repo}}",
+							"host": [
+								"{{urlApiGitHub}}repos"
+							],
+							"path": [
+								"{{owner}}",
+								"{{repo}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Create or update file contents",
+			"item": [
+				{
+					"name": "401 Unauthorized - Invalid Authentication",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 401 Unauthorized\", () => {",
+									"    pm.response.to.have.status(401);",
+									"});",
+									"",
+									"pm.test(\"Response contains 'message' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"message\");",
+									"    pm.expect(jsonData.message).to.contain(\"Bad credentials\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'documentation_url' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"documentation_url\");",
+									"    pm.expect(jsonData.documentation_url).to.contain(\"https://docs.github.com/rest\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'status' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"status\");",
+									"    pm.expect(jsonData.status).to.contain(\"401\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer <access_token>",
+								"type": "text"
+							},
+							{
+								"key": "X-GitHub-Api-Version",
+								"value": "2022-11-28",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/vnd.github.text-match+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"message\": \"Add READ.md\",\n    \"committer\": {\n        \"name\": \"Ana Shuhada Azimi\",\n        \"email\": \"anashuhadaazimi@gmail.com\"\n    },\n    \"content\": \"VGhpcyBmaWxlIGhhcyBiZWVuIGFkZGVkIGZvciB0ZXN0aW5nIHB1cnBvc2VzIG9ubHku\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlApiGitHub}}repos/{{owner}}/{{repo}}/contents/READ.md",
+							"host": [
+								"{{urlApiGitHub}}repos"
+							],
+							"path": [
+								"{{owner}}",
+								"{{repo}}",
+								"contents",
+								"READ.md"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "404 Not Found - Incorrect Endpoint",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 404 Not Found\", () => {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"pm.test(\"Response contains 'message' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"message\");",
+									"    pm.expect(jsonData.message).to.contain(\"Not Found\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'documentation_url' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"documentation_url\");",
+									"    pm.expect(jsonData.documentation_url).to.contain(\"https://docs.github.com/rest\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'status' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"status\");",
+									"    pm.expect(jsonData.status).to.contain(\"404\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer <access_token>",
+								"type": "text"
+							},
+							{
+								"key": "X-GitHub-Api-Version",
+								"value": "2022-11-28",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/vnd.github.text-match+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"message\": \"Add READ.md\",\n    \"committer\": {\n        \"name\": \"Ana Shuhada Azimi\",\n        \"email\": \"anashuhadaazimi@gmail.com\"\n    },\n    \"content\": \"VGhpcyBmaWxlIGhhcyBiZWVuIGFkZGVkIGZvciB0ZXN0aW5nIHB1cnBvc2VzIG9ubHku\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlApiGitHub}}repo/{{owner}}/{{repo}}/contents/READ.md",
+							"host": [
+								"{{urlApiGitHub}}repo"
+							],
+							"path": [
+								"{{owner}}",
+								"{{repo}}",
+								"contents",
+								"READ.md"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "404 Not Found - Incorrect HTTP Method",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 404 Not Found\", () => {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"pm.test(\"Response contains 'message' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"message\");",
+									"    pm.expect(jsonData.message).to.contain(\"Not Found\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'documentation_url' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"documentation_url\");",
+									"    pm.expect(jsonData.documentation_url).to.contain(\"https://docs.github.com/rest\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'status' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"status\");",
+									"    pm.expect(jsonData.status).to.contain(\"404\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer <access_token>",
+								"type": "text"
+							},
+							{
+								"key": "X-GitHub-Api-Version",
+								"value": "2022-11-28",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/vnd.github.text-match+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"message\": \"Add READ.md\",\n    \"committer\": {\n        \"name\": \"Ana Shuhada Azimi\",\n        \"email\": \"anashuhadaazimi@gmail.com\"\n    },\n    \"content\": \"VGhpcyBmaWxlIGhhcyBiZWVuIGFkZGVkIGZvciB0ZXN0aW5nIHB1cnBvc2VzIG9ubHku\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlApiGitHub}}repos/{{owner}}/{{repo}}/contents/READ.md",
+							"host": [
+								"{{urlApiGitHub}}repos"
+							],
+							"path": [
+								"{{owner}}",
+								"{{repo}}",
+								"contents",
+								"READ.md"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Get repository content",
+			"item": [
+				{
+					"name": "401 Unauthorized - Invalid Authentication",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 401 Unauthorized\", () => {",
+									"    pm.response.to.have.status(401);",
+									"});",
+									"",
+									"pm.test(\"Response contains 'message' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"message\");",
+									"    pm.expect(jsonData.message).to.contain(\"Bad credentials\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'documentation_url' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"documentation_url\");",
+									"    pm.expect(jsonData.documentation_url).to.contain(\"https://docs.github.com/rest\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'status' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"status\");",
+									"    pm.expect(jsonData.status).to.contain(\"401\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer <access_token>",
+								"type": "text"
+							},
+							{
+								"key": "X-GitHub-Api-Version",
+								"value": "2022-11-28",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/vnd.github.text-match+json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{urlApiGitHub}}repos/{{owner}}/{{repo}}/contents/READ.md",
+							"host": [
+								"{{urlApiGitHub}}repos"
+							],
+							"path": [
+								"{{owner}}",
+								"{{repo}}",
+								"contents",
+								"READ.md"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "404 Not Found - Incorrect Endpoint",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 404 Not Found\", () => {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"pm.test(\"Response contains 'message' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"message\");",
+									"    pm.expect(jsonData.message).to.contain(\"Not Found\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'documentation_url' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"documentation_url\");",
+									"    pm.expect(jsonData.documentation_url).to.contain(\"https://docs.github.com/rest\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'status' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"status\");",
+									"    pm.expect(jsonData.status).to.contain(\"404\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer <access_token>",
+								"type": "text"
+							},
+							{
+								"key": "X-GitHub-Api-Version",
+								"value": "2022-11-28",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/vnd.github.text-match+json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{urlApiGitHub}}repo/{{owner}}/{{repo}}/contents/READ.md",
+							"host": [
+								"{{urlApiGitHub}}repo"
+							],
+							"path": [
+								"{{owner}}",
+								"{{repo}}",
+								"contents",
+								"READ.md"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "404 Not Found - Incorrect HTTP Method",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 404 Not Found\", () => {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"pm.test(\"Response contains 'message' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"message\");",
+									"    pm.expect(jsonData.message).to.contain(\"Not Found\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'documentation_url' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"documentation_url\");",
+									"    pm.expect(jsonData.documentation_url).to.contain(\"https://docs.github.com/rest\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'status' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"status\");",
+									"    pm.expect(jsonData.status).to.contain(\"404\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer <access_token>",
+								"type": "text"
+							},
+							{
+								"key": "X-GitHub-Api-Version",
+								"value": "2022-11-28",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/vnd.github.text-match+json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{urlApiGitHub}}repos/{{owner}}/{{repo}}/contents/READ.md",
+							"host": [
+								"{{urlApiGitHub}}repos"
+							],
+							"path": [
+								"{{owner}}",
+								"{{repo}}",
+								"contents",
+								"READ.md"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Get a content",
+			"item": [
+				{
+					"name": "401 Unauthorized - Invalid Authentication",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 401 Unauthorized\", () => {",
+									"    pm.response.to.have.status(401);",
+									"});",
+									"",
+									"pm.test(\"Response contains 'message' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"message\");",
+									"    pm.expect(jsonData.message).to.contain(\"Bad credentials\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'documentation_url' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"documentation_url\");",
+									"    pm.expect(jsonData.documentation_url).to.contain(\"https://docs.github.com/rest\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'status' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"status\");",
+									"    pm.expect(jsonData.status).to.contain(\"401\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer <access_token>",
+								"type": "text"
+							},
+							{
+								"key": "X-GitHub-Api-Version",
+								"value": "2022-11-28",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/vnd.github.text-match+json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{urlApiGitHub}}repos/{{owner}}/{{repo}}/content/{{content_path}}",
+							"host": [
+								"{{urlApiGitHub}}repos"
+							],
+							"path": [
+								"{{owner}}",
+								"{{repo}}",
+								"content",
+								"{{content_path}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "404 Not Found - Incorrect Endpoint",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 404 Not Found\", () => {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"pm.test(\"Response contains 'message' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"message\");",
+									"    pm.expect(jsonData.message).to.contain(\"Not Found\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'documentation_url' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"documentation_url\");",
+									"    pm.expect(jsonData.documentation_url).to.contain(\"https://docs.github.com/rest\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'status' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"status\");",
+									"    pm.expect(jsonData.status).to.contain(\"404\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer <access_token>",
+								"type": "text"
+							},
+							{
+								"key": "X-GitHub-Api-Version",
+								"value": "2022-11-28",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/vnd.github.text-match+json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{urlApiGitHub}}repos/{{owner}}/{{repo}}/content/{{content_path}}",
+							"host": [
+								"{{urlApiGitHub}}repos"
+							],
+							"path": [
+								"{{owner}}",
+								"{{repo}}",
+								"content",
+								"{{content_path}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "404 Not Found - Incorrect HTTP Method",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 404 Not Found\", () => {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"pm.test(\"Response contains 'message' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"message\");",
+									"    pm.expect(jsonData.message).to.contain(\"Not Found\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'documentation_url' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"documentation_url\");",
+									"    pm.expect(jsonData.documentation_url).to.contain(\"https://docs.github.com/rest\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'status' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"status\");",
+									"    pm.expect(jsonData.status).to.contain(\"404\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer <access_token>",
+								"type": "text"
+							},
+							{
+								"key": "X-GitHub-Api-Version",
+								"value": "2022-11-28",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/vnd.github.text-match+json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{urlApiGitHub}}repos/{{owner}}/{{repo}}/contents/{{content_path}}",
+							"host": [
+								"{{urlApiGitHub}}repos"
+							],
+							"path": [
+								"{{owner}}",
+								"{{repo}}",
+								"contents",
+								"{{content_path}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Delete a content or file",
+			"item": [
+				{
+					"name": "401 Unauthorized - Invalid Authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 401 Unauthorized\", () => {",
+									"    pm.response.to.have.status(401);",
+									"});",
+									"",
+									"pm.test(\"Response contains 'message' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"message\");",
+									"    pm.expect(jsonData.message).to.contain(\"Bad credentials\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'documentation_url' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"documentation_url\");",
+									"    pm.expect(jsonData.documentation_url).to.contain(\"https://docs.github.com/rest\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'status' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"status\");",
+									"    pm.expect(jsonData.status).to.contain(\"401\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer <access_token>",
+								"type": "text"
+							},
+							{
+								"key": "X-GitHub-Api-Version",
+								"value": "2022-11-28",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/vnd.github.text-match+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"message\": \"README.md removed.\",\n    \"committer\": {\n        \"name\": \"{{committer_name}}\",\n        \"email\": \"{{committer_email}}\"\n    },\n    \"sha\": \"{{content_sha}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlApiGitHub}}repos/{{owner}}/{{repo}}/contents/{{content_path}}",
+							"host": [
+								"{{urlApiGitHub}}repos"
+							],
+							"path": [
+								"{{owner}}",
+								"{{repo}}",
+								"contents",
+								"{{content_path}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "404 Not Found - Incorrect Endpoint",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 404 Not Found\", () => {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"pm.test(\"Response contains 'message' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"message\");",
+									"    pm.expect(jsonData.message).to.contain(\"Not Found\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'documentation_url' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"documentation_url\");",
+									"    pm.expect(jsonData.documentation_url).to.contain(\"https://docs.github.com/rest\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'status' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"status\");",
+									"    pm.expect(jsonData.status).to.contain(\"404\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer <access_token>",
+								"type": "text"
+							},
+							{
+								"key": "X-GitHub-Api-Version",
+								"value": "2022-11-28",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/vnd.github.text-match+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"message\": \"README.md removed.\",\n    \"committer\": {\n        \"name\": \"{{committer_name}}\",\n        \"email\": \"{{committer_email}}\"\n    },\n    \"sha\": \"{{content_sha}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlApiGitHub}}repo/{{owner}}/{{repo}}/contents/{{content_path}}",
+							"host": [
+								"{{urlApiGitHub}}repo"
+							],
+							"path": [
+								"{{owner}}",
+								"{{repo}}",
+								"contents",
+								"{{content_path}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "404 Not Found - Incorrect HTTP Request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 404 Not Found\", () => {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"pm.test(\"Response contains 'message' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"message\");",
+									"    pm.expect(jsonData.message).to.contain(\"Not Found\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'documentation_url' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"documentation_url\");",
+									"    pm.expect(jsonData.documentation_url).to.contain(\"https://docs.github.com/rest\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'status' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"status\");",
+									"    pm.expect(jsonData.status).to.contain(\"404\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer <access_token>",
+								"type": "text"
+							},
+							{
+								"key": "X-GitHub-Api-Version",
+								"value": "2022-11-28",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/vnd.github.text-match+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"message\": \"README.md removed.\",\n    \"committer\": {\n        \"name\": \"{{committer_name}}\",\n        \"email\": \"{{committer_email}}\"\n    },\n    \"sha\": \"{{content_sha}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlApiGitHub}}repos/{{owner}}/{{repo}}/contents/{{content_path}}",
+							"host": [
+								"{{urlApiGitHub}}repos"
+							],
+							"path": [
+								"{{owner}}",
+								"{{repo}}",
+								"contents",
+								"{{content_path}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Delete a repository",
+			"item": [
+				{
+					"name": "401 Unauthorized - Invalid Authentication",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 401 Unauthorized\", () => {",
+									"    pm.response.to.have.status(401);",
+									"});",
+									"",
+									"pm.test(\"Response contains 'message' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"message\");",
+									"    pm.expect(jsonData.message).to.contain(\"Bad credentials\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'documentation_url' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"documentation_url\");",
+									"    pm.expect(jsonData.documentation_url).to.contain(\"https://docs.github.com/rest\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'status' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"status\");",
+									"    pm.expect(jsonData.status).to.contain(\"401\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer <access_token>",
+								"type": "text"
+							},
+							{
+								"key": "X-GitHub-Api-Version",
+								"value": "2022-11-28",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/vnd.github.text-match+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlApiGitHub}}repos/{{owner}}/{{repo}}",
+							"host": [
+								"{{urlApiGitHub}}repos"
+							],
+							"path": [
+								"{{owner}}",
+								"{{repo}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "404 Not Found - Incorrect Endpoint",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 404 Not Found\", () => {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"pm.test(\"Response contains 'message' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"message\");",
+									"    pm.expect(jsonData.message).to.contain(\"Not Found\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'documentation_url' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"documentation_url\");",
+									"    pm.expect(jsonData.documentation_url).to.contain(\"https://docs.github.com/rest\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'status' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"status\");",
+									"    pm.expect(jsonData.status).to.contain(\"404\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer <access_token>",
+								"type": "text"
+							},
+							{
+								"key": "X-GitHub-Api-Version",
+								"value": "2022-11-28",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/vnd.github.text-match+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlApiGitHub}}repo/{{owner}}/{{repo}}",
+							"host": [
+								"{{urlApiGitHub}}repo"
+							],
+							"path": [
+								"{{owner}}",
+								"{{repo}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "404 Not Found - Incorrect HTTP Method",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 404 Not Found\", () => {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"pm.test(\"Response contains 'message' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"message\");",
+									"    pm.expect(jsonData.message).to.contain(\"Not Found\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'documentation_url' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"documentation_url\");",
+									"    pm.expect(jsonData.documentation_url).to.contain(\"https://docs.github.com/rest\");",
+									"});",
+									"",
+									"pm.test(\"Response contains 'status' field\", () => {",
+									"    pm.expect(jsonData).to.have.property(\"status\");",
+									"    pm.expect(jsonData.status).to.contain(\"404\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true,
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer <access_token>",
+								"type": "text"
+							},
+							{
+								"key": "X-GitHub-Api-Version",
+								"value": "2022-11-28",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/vnd.github.text-match+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlApiGitHub}}repo/{{owner}}/{{repo}}",
+							"host": [
+								"{{urlApiGitHub}}repo"
+							],
+							"path": [
+								"{{owner}}",
+								"{{repo}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "urlGitHub",
+			"value": "https://github.com/",
+			"type": "string"
+		},
+		{
+			"key": "urlApiGitHub",
+			"value": "https://api.github.com/",
+			"type": "string"
+		},
+		{
+			"key": "repo",
+			"value": ""
+		},
+		{
+			"key": "id",
+			"value": ""
+		},
+		{
+			"key": "full_name",
+			"value": ""
+		},
+		{
+			"key": "owner",
+			"value": ""
+		},
+		{
+			"key": "owner_id",
+			"value": ""
+		},
+		{
+			"key": "content_name",
+			"value": ""
+		},
+		{
+			"key": "content_path",
+			"value": ""
+		},
+		{
+			"key": "content_sha",
+			"value": ""
+		},
+		{
+			"key": "content_size",
+			"value": ""
+		},
+		{
+			"key": "content_url",
+			"value": ""
+		},
+		{
+			"key": "commit_message",
+			"value": ""
+		},
+		{
+			"key": "committer_name",
+			"value": ""
+		},
+		{
+			"key": "committer_email",
+			"value": ""
+		}
+	]
+}
