@@ -15,7 +15,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{urlGitHub}}login/oauth/authorize?client_id=Ov23liwQrMdL9AixgJOn&redirect_uri=http://localhost:3000/callback&scope=public_repo, repo, delete_repo",
+							"raw": "{{urlGitHub}}login/oauth/authorize?client_id={{client_id}}&redirect_uri=http://localhost:3000/callback&scope=public_repo, repo, delete_repo",
 							"host": [
 								"{{urlGitHub}}login"
 							],
@@ -26,7 +26,7 @@
 							"query": [
 								{
 									"key": "client_id",
-									"value": "Ov23liwQrMdL9AixgJOn"
+									"value": "{{client_id}}"
 								},
 								{
 									"key": "redirect_uri",
@@ -47,7 +47,7 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "{{urlGitHub}}login/oauth/access_token?client_id=Ov23liwQrMdL9AixgJOn&client_secret=817dc4e474163e73b00e7190d1019016ab4b82a9&code=223c182996dc0e980da6",
+							"raw": "{{urlGitHub}}login/oauth/access_token?client_id={{client_id}}&client_secret={{client_secret}}&code={{code}}",
 							"host": [
 								"{{urlGitHub}}login"
 							],
@@ -58,15 +58,15 @@
 							"query": [
 								{
 									"key": "client_id",
-									"value": "Ov23liwQrMdL9AixgJOn"
+									"value": "{{client_id}}"
 								},
 								{
 									"key": "client_secret",
-									"value": "817dc4e474163e73b00e7190d1019016ab4b82a9"
+									"value": "{{client_secret}}"
 								},
 								{
 									"key": "code",
-									"value": "223c182996dc0e980da6"
+									"value": "{{code}}"
 								}
 							]
 						}
@@ -5384,7 +5384,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer <access_token>",
+								"value": "Bearer {{access_token}}",
 								"type": "text"
 							},
 							{
@@ -6048,7 +6048,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer <access_token>",
+								"value": "Bearer {{access_token}}",
 								"type": "text"
 							},
 							{
@@ -11819,7 +11819,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer <access_token>",
+								"value": "Bearer {{access_token}}",
 								"type": "text"
 							},
 							{
@@ -12535,7 +12535,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer <access_token>",
+								"value": "Bearer {{access_token}}",
 								"type": "text"
 							},
 							{
@@ -12901,7 +12901,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer <access_token>",
+								"value": "Bearer {{access_token}}",
 								"type": "text"
 							},
 							{
@@ -13125,7 +13125,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer <access_token>",
+								"value": "Bearer {{access_token}}",
 								"type": "text"
 							},
 							{
@@ -13333,7 +13333,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer <access_token>",
+								"value": "Bearer {{access_token}}",
 								"type": "text"
 							},
 							{
@@ -13621,7 +13621,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer <access_token>",
+								"value": "Bearer {{access_token}}",
 								"type": "text"
 							},
 							{
@@ -13733,7 +13733,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer <access_token>",
+								"value": "Bearer {{access_token}}",
 								"type": "text"
 							},
 							{
