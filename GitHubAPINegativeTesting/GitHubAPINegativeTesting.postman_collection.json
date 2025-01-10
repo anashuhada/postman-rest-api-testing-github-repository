@@ -200,7 +200,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{access_token}}",
+								"value": "Bearer {{access_token_401}}",
 								"type": "text"
 							},
 							{
@@ -535,7 +535,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{access_token}}",
+								"value": "Bearer {{access_token_401}}",
 								"type": "text"
 							},
 							{
@@ -925,7 +925,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{access_token}}",
+								"value": "Bearer {{access_token_401}}",
 								"type": "text"
 							},
 							{
@@ -1152,7 +1152,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{access_token}}",
+								"value": "Bearer {{access_token_401}}",
 								"type": "text"
 							},
 							{
@@ -1405,7 +1405,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{access_token}}",
+								"value": "Bearer {{access_token_401}}",
 								"type": "text"
 							},
 							{
@@ -1673,7 +1673,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{access_token}}",
+								"value": "Bearer {{access_token_401}}",
 								"type": "text"
 							},
 							{
@@ -1894,7 +1894,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{access_token}}",
+								"value": "Bearer {{access_token_401}}",
 								"type": "text"
 							},
 							{
@@ -2115,7 +2115,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{access_token}}",
+								"value": "Bearer {{access_token_401}}",
 								"type": "text"
 							},
 							{
@@ -2363,7 +2363,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{access_token}}",
+								"value": "Bearer {{access_token_401}}",
 								"type": "text"
 							},
 							{
