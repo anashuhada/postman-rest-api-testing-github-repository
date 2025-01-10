@@ -1,0 +1,783 @@
+Started by user anashuhada
+Running as SYSTEM
+Building in workspace /Users/anashuhada/.jenkins/workspace/postman-github-repo-data-driven-testing-locally
+[postman-github-repo-data-driven-testing-locally] $ /bin/sh -xe /var/folders/tl/5sbfnrf52pq811n30tj46bcm0000gn/T/jenkins4786232799889319177.sh
++ sed -i '' 's/{{client_id}}/****/g' '/Volumes/KINGSTON/Software Testing/GitHubAPITesting/GitHubAPIDataDriven/GitHubAPIDataDriven.postman_collection.json'
++ sed -i '' 's/{{client_secret}}/****/g' '/Volumes/KINGSTON/Software Testing/GitHubAPITesting/GitHubAPIDataDriven/GitHubAPIDataDriven.postman_collection.json'
++ sed -i '' 's/{{access_token}}/****/g' '/Volumes/KINGSTON/Software Testing/GitHubAPITesting/GitHubAPIDataDriven/GitHubAPIDataDriven.postman_collection.json'
+[postman-github-repo-data-driven-testing-locally] $ /bin/sh -xe /var/folders/tl/5sbfnrf52pq811n30tj46bcm0000gn/T/jenkins6587110617680031846.sh
++ newman run '/Volumes/KINGSTON/Software Testing/GitHubAPITesting/GitHubAPIDataDriven/GitHubAPIDataDriven.postman_collection.json' -d '/Volumes/KINGSTON/Software Testing/GitHubAPITesting/GitHubAPIDataDriven/GitHubRepoDataDriven.csv'
+newman
+
+GitHubAPIDataDriven
+
+Iteration 1/5
+
+❏ Creation of Access Token using OAuth Authorization Copy
+↳ Get Authorization Code (OAuth)
+  GET https://github.com/login/oauth/authorize?client_id=****&redirect_uri=http://localhost:3000/callback&scope=public_repo, repo, delete_repo [200 OK, 44.82kB, 1059ms]
+
+↳ Create Access Token
+  POST https://github.com/login/oauth/access_token?client_id=****&client_secret=****&code={{code}} [200 OK, 4.18kB, 557ms]
+
+→ Create a repository for the authenticated user
+  POST https://api.github.com/user/repos [201 Created, 7.7kB, 1388ms]
+  ✓  Status code is 201 Created
+  ✓  Response is in JSON format
+  ✓  Content-Type is present
+  ✓  Content-Type is 'application/json; charset=utf-8'
+  ✓  Response time is less than 3000ms
+  ✓  Response contains correct name for each field
+  ✓  Response contains correct types of data for each field
+  ✓  Request payload contains the correct data
+  ✓  Response contains the correct value for each field
+  ✓  API returns the correct version
+  ✓  Verify 'logged_in' cookie exists
+  ✓  Verify POST request method
+  ✓  Verify the base URL
+  ✓  Verify request URL
+
+→ List repositories for a user
+  GET https://api.github.com/users/anashuhada/repos?sort=updated [200 OK, 85.59kB, 765ms]
+  ✓  Status code is 200 OK
+  ✓  Response is in JSON format
+  ✓  Content-Type is present
+  ✓  Content-Type is 'application/json; charset=utf-8'
+  ✓  Response time is less than 3000ms
+  ✓  Response contains correct name for each field
+  ✓  Response contains correct types of data for each field
+  ✓  Response contains the correct value for each field
+  ✓  Verify 'logged_in' cookie exists
+  ✓  Verify GET request method
+  ✓  Verify the base URL
+  ✓  Verify request URL
+
+→ Update a repository
+  PATCH https://api.github.com/repos/anashuhada/awesome-project-starter [200 OK, 7.94kB, 544ms]
+  ✓  Status code is 200 OK
+  ✓  Response is in JSON format
+  ✓  Content-Type is present
+  ✓  Content-Type is 'application/json; charset=utf-8'
+  ✓  Response time is less than 3000ms
+  ✓  Response contains correct name for each field
+  ✓  Response contains correct types of data for each field
+  ✓  Request payload contains the correct data
+  ✓  Response contains the correct value for each field
+  ✓  API returns the correct version
+  ✓  Verify 'logged_in' cookie exists
+  ✓  Verify PATCH request method
+  ✓  Verify the base URL
+  ✓  Verify request URL
+  ┌
+  │ `Using "tv4" is deprecated. Use "require('ajv')" inste
+  │ ad.`
+  └
+  ✓  Schema is valid
+
+→ Create or update file contents
+  PUT https://api.github.com/repos/anashuhada/awesome-project-starter/contents/READ.md [201 Created, 3.15kB, 826ms]
+  ✓  Status code is 201 Created
+  ✓  Response is in JSON format
+  ✓  Content-Type is present
+  ✓  Content-Type is 'application/json; charset=utf-8'
+  ✓  Response time is less than 3000ms
+  ✓  Response contains correct name for each field
+  ✓  Response contains correct types of data for each field
+  ✓  Request payload contains the correct data
+  ✓  Response contains the correct value for each field
+  ✓  API returns the correct version
+  ✓  Verify 'logged_in' cookie exists
+  ✓  Verify PUT request method
+  ✓  Verify the base URL
+  ✓  Verify request URL
+  ┌
+  │ `Using "tv4" is deprecated. Use "require('ajv')" inste
+  │ ad.`
+  └
+  ✓  Schema is valid
+
+→ Get repository content
+  GET https://api.github.com/repos/anashuhada/awesome-project-starter/contents [200 OK, 2.27kB, 696ms]
+  ✓  Status code is 200 OK
+  ✓  Response is in JSON format
+  ✓  Content-Type is present
+  ✓  Content-Type is 'application/json; charset=utf-8'
+  ✓  Response time is less than 3000ms
+  ✓  Response contains correct name for each field
+  ✓  Response contains correct types of data for each field
+  ✓  Response contains the correct value for each field
+  ✓  Verify 'logged_in' cookie exists
+  ✓  Verify GET request method
+  ✓  API returns the correct version
+  ✓  Verify the base URL
+  ✓  Verify request URL
+
+→ Get a content
+  GET https://api.github.com/repos/anashuhada/awesome-project-starter/contents/READ.md [200 OK, 2.37kB, 718ms]
+  ✓  Status code is 200 OK
+  ✓  Response is in JSON format
+  ✓  Content-Type is present
+  ✓  Content-Type is 'application/json; charset=utf-8'
+  ✓  Response time is less than 3000ms
+  ✓  Response contains correct name for each field
+  ✓  Response contains correct types of data for each field
+  ✓  Response contains the correct value for each field
+  ✓  Verify 'logged_in' cookie exists
+  ✓  Verify GET request method
+  ✓  API returns the correct version
+  ✓  Verify the base URL
+  ✓  Verify request URL
+
+→ Delete a content or file
+  DELETE https://api.github.com/repos/anashuhada/awesome-project-starter/contents/READ.md [200 OK, 2.64kB, 884ms]
+  ✓  Status code is 200 OK
+  ✓  Response is in JSON format
+  ✓  Content-Type is present
+  ✓  Content-Type is 'application/json; charset=utf-8'
+  ✓  Response time is less than 3000ms
+  ✓  Response contains correct name for each field
+  ✓  Response contains correct types of data for each field
+  ✓  Response contains the correct value for each field
+  ✓  Verify 'logged_in' cookie exists
+  ✓  Verify DELETE request method
+  ✓  API returns the correct version
+  ✓  Verify the base URL
+  ✓  Verify request URL
+  ┌
+  │ `Using "tv4" is deprecated. Use "require('ajv')" inste
+  │ ad.`
+  └
+  ✓  Schema is valid
+
+→ Delete a repository
+  DELETE https://api.github.com/repos/anashuhada/awesome-project-starter [204 No Content, 1.16kB, 547ms]
+  ✓  Status code is 204 No Content
+  ✓  Response body is empty
+  ✓  Content-Type is not present for 204 No Content
+  ✓  Response time is less than 3000ms
+  ✓  Verify 'logged_in' cookie exists
+  ✓  Verify DELETE request method
+  ✓  API returns the correct version
+  ✓  Verify the base URL
+  ✓  Verify request URL
+
+Iteration 2/5
+
+❏ Creation of Access Token using OAuth Authorization Copy
+↳ Get Authorization Code (OAuth)
+  GET https://github.com/login/oauth/authorize?client_id=****&redirect_uri=http://localhost:3000/callback&scope=public_repo, repo, delete_repo [200 OK, 44.14kB, 431ms]
+
+↳ Create Access Token
+  POST https://github.com/login/oauth/access_token?client_id=****&client_secret=****&code={{code}} [200 OK, 4.18kB, 461ms]
+
+→ Create a repository for the authenticated user
+  POST https://api.github.com/user/repos [201 Created, 7.65kB, 1144ms]
+  ✓  Status code is 201 Created
+  ✓  Response is in JSON format
+  ✓  Content-Type is present
+  ✓  Content-Type is 'application/json; charset=utf-8'
+  ✓  Response time is less than 3000ms
+  ✓  Response contains correct name for each field
+  ✓  Response contains correct types of data for each field
+  ✓  Request payload contains the correct data
+  ✓  Response contains the correct value for each field
+  ✓  API returns the correct version
+  ✓  Verify 'logged_in' cookie exists
+  ✓  Verify POST request method
+  ✓  Verify the base URL
+  ✓  Verify request URL
+
+→ List repositories for a user
+  GET https://api.github.com/users/anashuhada/repos?sort=updated [200 OK, 85.55kB, 734ms]
+  ✓  Status code is 200 OK
+  ✓  Response is in JSON format
+  ✓  Content-Type is present
+  ✓  Content-Type is 'application/json; charset=utf-8'
+  ✓  Response time is less than 3000ms
+  ✓  Response contains correct name for each field
+  ✓  Response contains correct types of data for each field
+  ✓  Response contains the correct value for each field
+  ✓  Verify 'logged_in' cookie exists
+  ✓  Verify GET request method
+  ✓  Verify the base URL
+  ✓  Verify request URL
+
+→ Update a repository
+  PATCH https://api.github.com/repos/anashuhada/my-cool-python-scripts [200 OK, 7.89kB, 786ms]
+  ✓  Status code is 200 OK
+  ✓  Response is in JSON format
+  ✓  Content-Type is present
+  ✓  Content-Type is 'application/json; charset=utf-8'
+  ✓  Response time is less than 3000ms
+  ✓  Response contains correct name for each field
+  ✓  Response contains correct types of data for each field
+  ✓  Request payload contains the correct data
+  ✓  Response contains the correct value for each field
+  ✓  API returns the correct version
+  ✓  Verify 'logged_in' cookie exists
+  ✓  Verify PATCH request method
+  ✓  Verify the base URL
+  ✓  Verify request URL
+  ┌
+  │ `Using "tv4" is deprecated. Use "require('ajv')" inste
+  │ ad.`
+  └
+  ✓  Schema is valid
+
+→ Create or update file contents
+  PUT https://api.github.com/repos/anashuhada/my-cool-python-scripts/contents/READ.md [201 Created, 3.14kB, 1062ms]
+  ✓  Status code is 201 Created
+  ✓  Response is in JSON format
+  ✓  Content-Type is present
+  ✓  Content-Type is 'application/json; charset=utf-8'
+  ✓  Response time is less than 3000ms
+  ✓  Response contains correct name for each field
+  ✓  Response contains correct types of data for each field
+  ✓  Request payload contains the correct data
+  ✓  Response contains the correct value for each field
+  ✓  API returns the correct version
+  ✓  Verify 'logged_in' cookie exists
+  ✓  Verify PUT request method
+  ✓  Verify the base URL
+  ✓  Verify request URL
+  ┌
+  │ `Using "tv4" is deprecated. Use "require('ajv')" inste
+  │ ad.`
+  └
+  ✓  Schema is valid
+
+→ Get repository content
+  GET https://api.github.com/repos/anashuhada/my-cool-python-scripts/contents [200 OK, 2.26kB, 480ms]
+  ✓  Status code is 200 OK
+  ✓  Response is in JSON format
+  ✓  Content-Type is present
+  ✓  Content-Type is 'application/json; charset=utf-8'
+  ✓  Response time is less than 3000ms
+  ✓  Response contains correct name for each field
+  ✓  Response contains correct types of data for each field
+  ✓  Response contains the correct value for each field
+  ✓  Verify 'logged_in' cookie exists
+  ✓  Verify GET request method
+  ✓  API returns the correct version
+  ✓  Verify the base URL
+  ✓  Verify request URL
+
+→ Get a content
+  GET https://api.github.com/repos/anashuhada/my-cool-python-scripts/contents/READ.md [200 OK, 2.36kB, 677ms]
+  ✓  Status code is 200 OK
+  ✓  Response is in JSON format
+  ✓  Content-Type is present
+  ✓  Content-Type is 'application/json; charset=utf-8'
+  ✓  Response time is less than 3000ms
+  ✓  Response contains correct name for each field
+  ✓  Response contains correct types of data for each field
+  ✓  Response contains the correct value for each field
+  ✓  Verify 'logged_in' cookie exists
+  ✓  Verify GET request method
+  ✓  API returns the correct version
+  ✓  Verify the base URL
+  ✓  Verify request URL
+
+→ Delete a content or file
+  DELETE https://api.github.com/repos/anashuhada/my-cool-python-scripts/contents/READ.md [200 OK, 2.64kB, 991ms]
+  ✓  Status code is 200 OK
+  ✓  Response is in JSON format
+  ✓  Content-Type is present
+  ✓  Content-Type is 'application/json; charset=utf-8'
+  ✓  Response time is less than 3000ms
+  ✓  Response contains correct name for each field
+  ✓  Response contains correct types of data for each field
+  ✓  Response contains the correct value for each field
+  ✓  Verify 'logged_in' cookie exists
+  ✓  Verify DELETE request method
+  ✓  API returns the correct version
+  ✓  Verify the base URL
+  ✓  Verify request URL
+  ┌
+  │ `Using "tv4" is deprecated. Use "require('ajv')" inste
+  │ ad.`
+  └
+  ✓  Schema is valid
+
+→ Delete a repository
+  DELETE https://api.github.com/repos/anashuhada/my-cool-python-scripts [204 No Content, 1.16kB, 760ms]
+  ✓  Status code is 204 No Content
+  ✓  Response body is empty
+  ✓  Content-Type is not present for 204 No Content
+  ✓  Response time is less than 3000ms
+  ✓  Verify 'logged_in' cookie exists
+  ✓  Verify DELETE request method
+  ✓  API returns the correct version
+  ✓  Verify the base URL
+  ✓  Verify request URL
+
+Iteration 3/5
+
+❏ Creation of Access Token using OAuth Authorization Copy
+↳ Get Authorization Code (OAuth)
+  GET https://github.com/login/oauth/authorize?client_id=****&redirect_uri=http://localhost:3000/callback&scope=public_repo, repo, delete_repo [200 OK, 44.14kB, 407ms]
+
+↳ Create Access Token
+  POST https://github.com/login/oauth/access_token?client_id=****&client_secret=****&code={{code}} [200 OK, 4.18kB, 352ms]
+
+→ Create a repository for the authenticated user
+  POST https://api.github.com/user/repos [201 Created, 7.61kB, 1263ms]
+  ✓  Status code is 201 Created
+  ✓  Response is in JSON format
+  ✓  Content-Type is present
+  ✓  Content-Type is 'application/json; charset=utf-8'
+  ✓  Response time is less than 3000ms
+  ✓  Response contains correct name for each field
+  ✓  Response contains correct types of data for each field
+  ✓  Request payload contains the correct data
+  ✓  Response contains the correct value for each field
+  ✓  API returns the correct version
+  ✓  Verify 'logged_in' cookie exists
+  ✓  Verify POST request method
+  ✓  Verify the base URL
+  ✓  Verify request URL
+
+→ List repositories for a user
+  GET https://api.github.com/users/anashuhada/repos?sort=updated [200 OK, 85.5kB, 547ms]
+  ✓  Status code is 200 OK
+  ✓  Response is in JSON format
+  ✓  Content-Type is present
+  ✓  Content-Type is 'application/json; charset=utf-8'
+  ✓  Response time is less than 3000ms
+  ✓  Response contains correct name for each field
+  ✓  Response contains correct types of data for each field
+  ✓  Response contains the correct value for each field
+  ✓  Verify 'logged_in' cookie exists
+  ✓  Verify GET request method
+  ✓  Verify the base URL
+  ✓  Verify request URL
+
+→ Update a repository
+  PATCH https://api.github.com/repos/anashuhada/web-design-playground [200 OK, 7.85kB, 543ms]
+  ✓  Status code is 200 OK
+  ✓  Response is in JSON format
+  ✓  Content-Type is present
+  ✓  Content-Type is 'application/json; charset=utf-8'
+  ✓  Response time is less than 3000ms
+  ✓  Response contains correct name for each field
+  ✓  Response contains correct types of data for each field
+  ✓  Request payload contains the correct data
+  ✓  Response contains the correct value for each field
+  ✓  API returns the correct version
+  ✓  Verify 'logged_in' cookie exists
+  ✓  Verify PATCH request method
+  ✓  Verify the base URL
+  ✓  Verify request URL
+  ┌
+  │ `Using "tv4" is deprecated. Use "require('ajv')" inste
+  │ ad.`
+  └
+  ✓  Schema is valid
+
+→ Create or update file contents
+  PUT https://api.github.com/repos/anashuhada/web-design-playground/contents/READ.md [201 Created, 3.13kB, 697ms]
+  ✓  Status code is 201 Created
+  ✓  Response is in JSON format
+  ✓  Content-Type is present
+  ✓  Content-Type is 'application/json; charset=utf-8'
+  ✓  Response time is less than 3000ms
+  ✓  Response contains correct name for each field
+  ✓  Response contains correct types of data for each field
+  ✓  Request payload contains the correct data
+  ✓  Response contains the correct value for each field
+  ✓  API returns the correct version
+  ✓  Verify 'logged_in' cookie exists
+  ✓  Verify PUT request method
+  ✓  Verify the base URL
+  ✓  Verify request URL
+  ┌
+  │ `Using "tv4" is deprecated. Use "require('ajv')" inste
+  │ ad.`
+  └
+  ✓  Schema is valid
+
+→ Get repository content
+  GET https://api.github.com/repos/anashuhada/web-design-playground/contents [200 OK, 2.25kB, 569ms]
+  ✓  Status code is 200 OK
+  ✓  Response is in JSON format
+  ✓  Content-Type is present
+  ✓  Content-Type is 'application/json; charset=utf-8'
+  ✓  Response time is less than 3000ms
+  ✓  Response contains correct name for each field
+  ✓  Response contains correct types of data for each field
+  ✓  Response contains the correct value for each field
+  ✓  Verify 'logged_in' cookie exists
+  ✓  Verify GET request method
+  ✓  API returns the correct version
+  ✓  Verify the base URL
+  ✓  Verify request URL
+
+→ Get a content
+  GET https://api.github.com/repos/anashuhada/web-design-playground/contents/READ.md [200 OK, 2.36kB, 549ms]
+  ✓  Status code is 200 OK
+  ✓  Response is in JSON format
+  ✓  Content-Type is present
+  ✓  Content-Type is 'application/json; charset=utf-8'
+  ✓  Response time is less than 3000ms
+  ✓  Response contains correct name for each field
+  ✓  Response contains correct types of data for each field
+  ✓  Response contains the correct value for each field
+  ✓  Verify 'logged_in' cookie exists
+  ✓  Verify GET request method
+  ✓  API returns the correct version
+  ✓  Verify the base URL
+  ✓  Verify request URL
+
+→ Delete a content or file
+  DELETE https://api.github.com/repos/anashuhada/web-design-playground/contents/READ.md [200 OK, 2.63kB, 709ms]
+  ✓  Status code is 200 OK
+  ✓  Response is in JSON format
+  ✓  Content-Type is present
+  ✓  Content-Type is 'application/json; charset=utf-8'
+  ✓  Response time is less than 3000ms
+  ✓  Response contains correct name for each field
+  ✓  Response contains correct types of data for each field
+  ✓  Response contains the correct value for each field
+  ✓  Verify 'logged_in' cookie exists
+  ✓  Verify DELETE request method
+  ✓  API returns the correct version
+  ✓  Verify the base URL
+  ✓  Verify request URL
+  ┌
+  │ `Using "tv4" is deprecated. Use "require('ajv')" inste
+  │ ad.`
+  └
+  ✓  Schema is valid
+
+→ Delete a repository
+  DELETE https://api.github.com/repos/anashuhada/web-design-playground [204 No Content, 1.16kB, 680ms]
+  ✓  Status code is 204 No Content
+  ✓  Response body is empty
+  ✓  Content-Type is not present for 204 No Content
+  ✓  Response time is less than 3000ms
+  ✓  Verify 'logged_in' cookie exists
+  ✓  Verify DELETE request method
+  ✓  API returns the correct version
+  ✓  Verify the base URL
+  ✓  Verify request URL
+
+Iteration 4/5
+
+❏ Creation of Access Token using OAuth Authorization Copy
+↳ Get Authorization Code (OAuth)
+  GET https://github.com/login/oauth/authorize?client_id=****&redirect_uri=http://localhost:3000/callback&scope=public_repo, repo, delete_repo [200 OK, 44.14kB, 465ms]
+
+↳ Create Access Token
+  POST https://github.com/login/oauth/access_token?client_id=****&client_secret=****&code={{code}} [200 OK, 4.18kB, 406ms]
+
+→ Create a repository for the authenticated user
+  POST https://api.github.com/user/repos [201 Created, 7.83kB, 1160ms]
+  ✓  Status code is 201 Created
+  ✓  Response is in JSON format
+  ✓  Content-Type is present
+  ✓  Content-Type is 'application/json; charset=utf-8'
+  ✓  Response time is less than 3000ms
+  ✓  Response contains correct name for each field
+  ✓  Response contains correct types of data for each field
+  ✓  Request payload contains the correct data
+  ✓  Response contains the correct value for each field
+  ✓  API returns the correct version
+  ✓  Verify 'logged_in' cookie exists
+  ✓  Verify POST request method
+  ✓  Verify the base URL
+  ✓  Verify request URL
+
+→ List repositories for a user
+  GET https://api.github.com/users/anashuhada/repos?sort=updated [200 OK, 85.72kB, 627ms]
+  ✓  Status code is 200 OK
+  ✓  Response is in JSON format
+  ✓  Content-Type is present
+  ✓  Content-Type is 'application/json; charset=utf-8'
+  ✓  Response time is less than 3000ms
+  ✓  Response contains correct name for each field
+  ✓  Response contains correct types of data for each field
+  ✓  Response contains the correct value for each field
+  ✓  Verify 'logged_in' cookie exists
+  ✓  Verify GET request method
+  ✓  Verify the base URL
+  ✓  Verify request URL
+
+→ Update a repository
+  PATCH https://api.github.com/repos/anashuhada/automation-testing-toolkit [200 OK, 8.07kB, 458ms]
+  ✓  Status code is 200 OK
+  ✓  Response is in JSON format
+  ✓  Content-Type is present
+  ✓  Content-Type is 'application/json; charset=utf-8'
+  ✓  Response time is less than 3000ms
+  ✓  Response contains correct name for each field
+  ✓  Response contains correct types of data for each field
+  ✓  Request payload contains the correct data
+  ✓  Response contains the correct value for each field
+  ✓  API returns the correct version
+  ✓  Verify 'logged_in' cookie exists
+  ✓  Verify PATCH request method
+  ✓  Verify the base URL
+  ✓  Verify request URL
+  ┌
+  │ `Using "tv4" is deprecated. Use "require('ajv')" inste
+  │ ad.`
+  └
+  ✓  Schema is valid
+
+→ Create or update file contents
+  PUT https://api.github.com/repos/anashuhada/automation-testing-toolkit/contents/READ.md [201 Created, 3.18kB, 678ms]
+  ✓  Status code is 201 Created
+  ✓  Response is in JSON format
+  ✓  Content-Type is present
+  ✓  Content-Type is 'application/json; charset=utf-8'
+  ✓  Response time is less than 3000ms
+  ✓  Response contains correct name for each field
+  ✓  Response contains correct types of data for each field
+  ✓  Request payload contains the correct data
+  ✓  Response contains the correct value for each field
+  ✓  API returns the correct version
+  ✓  Verify 'logged_in' cookie exists
+  ✓  Verify PUT request method
+  ✓  Verify the base URL
+  ✓  Verify request URL
+  ┌
+  │ `Using "tv4" is deprecated. Use "require('ajv')" inste
+  │ ad.`
+  └
+  ✓  Schema is valid
+
+→ Get repository content
+  GET https://api.github.com/repos/anashuhada/automation-testing-toolkit/contents [200 OK, 2.29kB, 585ms]
+  ✓  Status code is 200 OK
+  ✓  Response is in JSON format
+  ✓  Content-Type is present
+  ✓  Content-Type is 'application/json; charset=utf-8'
+  ✓  Response time is less than 3000ms
+  ✓  Response contains correct name for each field
+  ✓  Response contains correct types of data for each field
+  ✓  Response contains the correct value for each field
+  ✓  Verify 'logged_in' cookie exists
+  ✓  Verify GET request method
+  ✓  API returns the correct version
+  ✓  Verify the base URL
+  ✓  Verify request URL
+
+→ Get a content
+  GET https://api.github.com/repos/anashuhada/automation-testing-toolkit/contents/READ.md [200 OK, 2.39kB, 531ms]
+  ✓  Status code is 200 OK
+  ✓  Response is in JSON format
+  ✓  Content-Type is present
+  ✓  Content-Type is 'application/json; charset=utf-8'
+  ✓  Response time is less than 3000ms
+  ✓  Response contains correct name for each field
+  ✓  Response contains correct types of data for each field
+  ✓  Response contains the correct value for each field
+  ✓  Verify 'logged_in' cookie exists
+  ✓  Verify GET request method
+  ✓  API returns the correct version
+  ✓  Verify the base URL
+  ✓  Verify request URL
+
+→ Delete a content or file
+  DELETE https://api.github.com/repos/anashuhada/automation-testing-toolkit/contents/READ.md [200 OK, 2.66kB, 752ms]
+  ✓  Status code is 200 OK
+  ✓  Response is in JSON format
+  ✓  Content-Type is present
+  ✓  Content-Type is 'application/json; charset=utf-8'
+  ✓  Response time is less than 3000ms
+  ✓  Response contains correct name for each field
+  ✓  Response contains correct types of data for each field
+  ✓  Response contains the correct value for each field
+  ✓  Verify 'logged_in' cookie exists
+  ✓  Verify DELETE request method
+  ✓  API returns the correct version
+  ✓  Verify the base URL
+  ✓  Verify request URL
+  ┌
+  │ `Using "tv4" is deprecated. Use "require('ajv')" inste
+  │ ad.`
+  └
+  ✓  Schema is valid
+
+→ Delete a repository
+  DELETE https://api.github.com/repos/anashuhada/automation-testing-toolkit [204 No Content, 1.16kB, 624ms]
+  ✓  Status code is 204 No Content
+  ✓  Response body is empty
+  ✓  Content-Type is not present for 204 No Content
+  ✓  Response time is less than 3000ms
+  ✓  Verify 'logged_in' cookie exists
+  ✓  Verify DELETE request method
+  ✓  API returns the correct version
+  ✓  Verify the base URL
+  ✓  Verify request URL
+
+Iteration 5/5
+
+❏ Creation of Access Token using OAuth Authorization Copy
+↳ Get Authorization Code (OAuth)
+  GET https://github.com/login/oauth/authorize?client_id=****&redirect_uri=http://localhost:3000/callback&scope=public_repo, repo, delete_repo [200 OK, 44.14kB, 479ms]
+
+↳ Create Access Token
+  POST https://github.com/login/oauth/access_token?client_id=****&client_secret=****&code={{code}} [200 OK, 4.18kB, 426ms]
+
+→ Create a repository for the authenticated user
+  POST https://api.github.com/user/repos [201 Created, 7.7kB, 1184ms]
+  ✓  Status code is 201 Created
+  ✓  Response is in JSON format
+  ✓  Content-Type is present
+  ✓  Content-Type is 'application/json; charset=utf-8'
+  ✓  Response time is less than 3000ms
+  ✓  Response contains correct name for each field
+  ✓  Response contains correct types of data for each field
+  ✓  Request payload contains the correct data
+  ✓  Response contains the correct value for each field
+  ✓  API returns the correct version
+  ✓  Verify 'logged_in' cookie exists
+  ✓  Verify POST request method
+  ✓  Verify the base URL
+  ✓  Verify request URL
+
+→ List repositories for a user
+  GET https://api.github.com/users/anashuhada/repos?sort=updated [200 OK, 85.59kB, 583ms]
+  ✓  Status code is 200 OK
+  ✓  Response is in JSON format
+  ✓  Content-Type is present
+  ✓  Content-Type is 'application/json; charset=utf-8'
+  ✓  Response time is less than 3000ms
+  ✓  Response contains correct name for each field
+  ✓  Response contains correct types of data for each field
+  ✓  Response contains the correct value for each field
+  ✓  Verify 'logged_in' cookie exists
+  ✓  Verify GET request method
+  ✓  Verify the base URL
+  ✓  Verify request URL
+
+→ Update a repository
+  PATCH https://api.github.com/repos/anashuhada/data-visualization-dash [200 OK, 7.94kB, 669ms]
+  ✓  Status code is 200 OK
+  ✓  Response is in JSON format
+  ✓  Content-Type is present
+  ✓  Content-Type is 'application/json; charset=utf-8'
+  ✓  Response time is less than 3000ms
+  ✓  Response contains correct name for each field
+  ✓  Response contains correct types of data for each field
+  ✓  Request payload contains the correct data
+  ✓  Response contains the correct value for each field
+  ✓  API returns the correct version
+  ✓  Verify 'logged_in' cookie exists
+  ✓  Verify PATCH request method
+  ✓  Verify the base URL
+  ✓  Verify request URL
+  ┌
+  │ `Using "tv4" is deprecated. Use "require('ajv')" inste
+  │ ad.`
+  └
+  ✓  Schema is valid
+
+→ Create or update file contents
+  PUT https://api.github.com/repos/anashuhada/data-visualization-dash/contents/READ.md [201 Created, 3.15kB, 751ms]
+  ✓  Status code is 201 Created
+  ✓  Response is in JSON format
+  ✓  Content-Type is present
+  ✓  Content-Type is 'application/json; charset=utf-8'
+  ✓  Response time is less than 3000ms
+  ✓  Response contains correct name for each field
+  ✓  Response contains correct types of data for each field
+  ✓  Request payload contains the correct data
+  ✓  Response contains the correct value for each field
+  ✓  API returns the correct version
+  ✓  Verify 'logged_in' cookie exists
+  ✓  Verify PUT request method
+  ✓  Verify the base URL
+  ✓  Verify request URL
+  ┌
+  │ `Using "tv4" is deprecated. Use "require('ajv')" inste
+  │ ad.`
+  └
+  ✓  Schema is valid
+
+→ Get repository content
+  GET https://api.github.com/repos/anashuhada/data-visualization-dash/contents [200 OK, 2.27kB, 705ms]
+  ✓  Status code is 200 OK
+  ✓  Response is in JSON format
+  ✓  Content-Type is present
+  ✓  Content-Type is 'application/json; charset=utf-8'
+  ✓  Response time is less than 3000ms
+  ✓  Response contains correct name for each field
+  ✓  Response contains correct types of data for each field
+  ✓  Response contains the correct value for each field
+  ✓  Verify 'logged_in' cookie exists
+  ✓  Verify GET request method
+  ✓  API returns the correct version
+  ✓  Verify the base URL
+  ✓  Verify request URL
+
+→ Get a content
+  GET https://api.github.com/repos/anashuhada/data-visualization-dash/contents/READ.md [200 OK, 2.37kB, 685ms]
+  ✓  Status code is 200 OK
+  ✓  Response is in JSON format
+  ✓  Content-Type is present
+  ✓  Content-Type is 'application/json; charset=utf-8'
+  ✓  Response time is less than 3000ms
+  ✓  Response contains correct name for each field
+  ✓  Response contains correct types of data for each field
+  ✓  Response contains the correct value for each field
+  ✓  Verify 'logged_in' cookie exists
+  ✓  Verify GET request method
+  ✓  API returns the correct version
+  ✓  Verify the base URL
+  ✓  Verify request URL
+
+→ Delete a content or file
+  DELETE https://api.github.com/repos/anashuhada/data-visualization-dash/contents/READ.md [200 OK, 2.64kB, 750ms]
+  ✓  Status code is 200 OK
+  ✓  Response is in JSON format
+  ✓  Content-Type is present
+  ✓  Content-Type is 'application/json; charset=utf-8'
+  ✓  Response time is less than 3000ms
+  ✓  Response contains correct name for each field
+  ✓  Response contains correct types of data for each field
+  ✓  Response contains the correct value for each field
+  ✓  Verify 'logged_in' cookie exists
+  ✓  Verify DELETE request method
+  ✓  API returns the correct version
+  ✓  Verify the base URL
+  ✓  Verify request URL
+  ┌
+  │ `Using "tv4" is deprecated. Use "require('ajv')" inste
+  │ ad.`
+  └
+  ✓  Schema is valid
+
+→ Delete a repository
+  DELETE https://api.github.com/repos/anashuhada/data-visualization-dash [204 No Content, 1.16kB, 600ms]
+  ✓  Status code is 204 No Content
+  ✓  Response body is empty
+  ✓  Content-Type is not present for 204 No Content
+  ✓  Response time is less than 3000ms
+  ✓  Verify 'logged_in' cookie exists
+  ✓  Verify DELETE request method
+  ✓  API returns the correct version
+  ✓  Verify the base URL
+  ✓  Verify request URL
+
+┌─────────────────────────┬─────────────────────┬─────────────────────┐
+│                         │            executed │              failed │
+├─────────────────────────┼─────────────────────┼─────────────────────┤
+│              iterations │                   5 │                   0 │
+├─────────────────────────┼─────────────────────┼─────────────────────┤
+│                requests │                  50 │                   0 │
+├─────────────────────────┼─────────────────────┼─────────────────────┤
+│            test-scripts │                  90 │                   0 │
+├─────────────────────────┼─────────────────────┼─────────────────────┤
+│      prerequest-scripts │                  60 │                   0 │
+├─────────────────────────┼─────────────────────┼─────────────────────┤
+│              assertions │                 525 │                   0 │
+├─────────────────────────┴─────────────────────┴─────────────────────┤
+│ total run duration: 36.8s                                           │
+├─────────────────────────────────────────────────────────────────────┤
+│ total data received: 710.61kB (approx)                              │
+├─────────────────────────────────────────────────────────────────────┤
+│ average response time: 698ms [min: 352ms, max: 1388ms, s.d.: 236ms] │
+└─────────────────────────────────────────────────────────────────────┘
+Finished: SUCCESS

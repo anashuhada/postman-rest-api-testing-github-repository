@@ -1,0 +1,236 @@
+Started by user anashuhada
+Running as SYSTEM
+Building in workspace /Users/anashuhada/.jenkins/workspace/postman-github-repo-positive-testing-from-github
+The recommended git tool is: NONE
+No credentials specified
+Cloning the remote Git repository
+Using no checkout clone with sparse checkout.
+Cloning repository https://github.com/anashuhada/postman-rest-api-testing-github-repository.git
+ > /usr/local/bin/git init /Users/anashuhada/.jenkins/workspace/postman-github-repo-positive-testing-from-github # timeout=10
+Fetching upstream changes from https://github.com/anashuhada/postman-rest-api-testing-github-repository.git
+ > /usr/local/bin/git --version # timeout=10
+ > git --version # 'git version 2.15.0'
+ > /usr/local/bin/git fetch --tags --progress -- https://github.com/anashuhada/postman-rest-api-testing-github-repository.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > /usr/local/bin/git config remote.origin.url https://github.com/anashuhada/postman-rest-api-testing-github-repository.git # timeout=10
+ > /usr/local/bin/git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+Avoid second fetch
+ > /usr/local/bin/git rev-parse refs/remotes/origin/main^{commit} # timeout=10
+Checking out Revision d7fa39981226645d21d192161ba526016404a086 (refs/remotes/origin/main)
+ > /usr/local/bin/git config core.sparsecheckout # timeout=10
+ > /usr/local/bin/git config core.sparsecheckout true # timeout=10
+ > /usr/local/bin/git read-tree -mu HEAD # timeout=10
+ > /usr/local/bin/git checkout -f d7fa39981226645d21d192161ba526016404a086 # timeout=10
+Commit message: "Update GitHubAPIPositiveTesting.postman_collection.json"
+First time build. Skipping changelog.
+[postman-github-repo-positive-testing-from-github] $ /bin/sh -xe /var/folders/tl/5sbfnrf52pq811n30tj46bcm0000gn/T/jenkins8867812477160044744.sh
++ git config core.sparseCheckout false
+[postman-github-repo-positive-testing-from-github] $ /bin/sh -xe /var/folders/tl/5sbfnrf52pq811n30tj46bcm0000gn/T/jenkins11473414483972450893.sh
++ sed -i '' 's/{{client_id}}/****/g' GitHubAPIPositiveTesting/GitHubAPIPositiveTesting.postman_collection.json
++ sed -i '' 's/{{client_secret}}/****/g' GitHubAPIPositiveTesting/GitHubAPIPositiveTesting.postman_collection.json
++ sed -i '' 's/{{access_token}}/****/g' GitHubAPIPositiveTesting/GitHubAPIPositiveTesting.postman_collection.json
+[postman-github-repo-positive-testing-from-github] $ /bin/sh -xe /var/folders/tl/5sbfnrf52pq811n30tj46bcm0000gn/T/jenkins16785242770592835560.sh
++ newman run GitHubAPIPositiveTesting/GitHubAPIPositiveTesting.postman_collection.json
+newman
+
+GitHubAPIPositiveTesting
+
+❏ Creation of Access Token using OAuth Authorization
+↳ Get Authorization Code (OAuth)
+  GET https://github.com/login/oauth/authorize?client_id=****&redirect_uri=http://localhost:3000/callback&scope=public_repo, repo, delete_repo [200 OK, 44.81kB, 1131ms]
+
+↳ Create Access Token
+  POST https://github.com/login/oauth/access_token?client_id=****&client_secret=****&code={{code}} [200 OK, 4.18kB, 567ms]
+
+❏ Repository
+↳ List repositories for the authenticated user
+  GET https://api.github.com/user/repos?visibility=public&sort=created [200 OK, 79.78kB, 888ms]
+  ✓  Status code is 200 OK
+  ✓  Response is in JSON format
+  ✓  Content-Type is present
+  ✓  Content-Type is 'application/json; charset=utf-8'
+  ✓  Response time is less than 2000ms
+  ✓  Response contains correct name for each field
+  ✓  Response contains correct types of data for each field
+  ✓  Response contains the correct value for each field
+  ✓  Verify 'logged_in' cookie exists
+  ✓  Verify GET request method
+  ✓  API returns the correct version
+  ✓  Verify the base URL
+  ✓  Verify request URL
+
+↳ Create a repository for the authenticated user
+  POST https://api.github.com/user/repos [201 Created, 8.05kB, 1231ms]
+  ✓  Status code is 201 Created
+  ✓  Response is in JSON format
+  ✓  Content-Type is present
+  ✓  Content-Type is 'application/json; charset=utf-8'
+  ✓  Response time is less than 2000ms
+  ✓  Response contains correct name for each field
+  ✓  Response contains correct types of data for each field
+  ✓  Request payload contains the correct data
+  ✓  Response contains the correct value for each field
+  ✓  API returns the correct version
+  ✓  Verify 'logged_in' cookie exists
+  ✓  Verify POST request method
+  ✓  Verify the base URL
+  ✓  Verify request URL
+  ┌
+  │ `Using "tv4" is deprecated. Use "require('ajv')" inste
+  │ ad.`
+  └
+  ✓  Schema is valid
+
+↳ List repositories for a user
+  GET https://api.github.com/users/anashuhada/repos?sort=updated [200 OK, 85.94kB, 579ms]
+  ✓  Status code is 200 OK
+  ✓  Response is in JSON format
+  ✓  Content-Type is present
+  ✓  Content-Type is 'application/json; charset=utf-8'
+  ✓  Response time is less than 2000ms
+  ✓  Response contains correct name for each field
+  ✓  Response contains correct types of data for each field
+  ✓  Response contains the correct value for each field
+  ✓  Verify 'logged_in' cookie exists
+  ✓  Verify GET request method
+  ✓  Verify the base URL
+  ✓  Verify request URL
+
+↳ Update a repository
+  PATCH https://api.github.com/repos/anashuhada/postman-github-api-repositories [200 OK, 8.29kB, 528ms]
+  ✓  Status code is 200 OK
+  ✓  Response is in JSON format
+  ✓  Content-Type is present
+  ✓  Content-Type is 'application/json; charset=utf-8'
+  ✓  Response time is less than 2000ms
+  ✓  Response contains correct name for each field
+  ✓  Response contains correct types of data for each field
+  ✓  Request payload contains the correct data
+  ✓  Response contains the correct value for each field
+  ✓  API returns the correct version
+  ✓  Verify 'logged_in' cookie exists
+  ✓  Verify PATCH request method
+  ✓  Verify the base URL
+  ✓  Verify request URL
+  ┌
+  │ `Using "tv4" is deprecated. Use "require('ajv')" inste
+  │ ad.`
+  └
+  ✓  Schema is valid
+
+↳ Create or update file contents
+  PUT https://api.github.com/repos/anashuhada/postman-github-api-repositories/contents/READ.md [201 Created, 3.22kB, 798ms]
+  ✓  Status code is 201 Created
+  ✓  Response is in JSON format
+  ✓  Content-Type is present
+  ✓  Content-Type is 'application/json; charset=utf-8'
+  ✓  Response time is less than 2000ms
+  ✓  Response contains correct name for each field
+  ✓  Response contains correct types of data for each field
+  ✓  Request payload contains the correct data
+  ✓  Response contains the correct value for each field
+  ✓  API returns the correct version
+  ✓  Verify 'logged_in' cookie exists
+  ✓  Verify PUT request method
+  ✓  Verify the base URL
+  ✓  Verify request URL
+  ┌
+  │ `Using "tv4" is deprecated. Use "require('ajv')" inste
+  │ ad.`
+  └
+  ✓  Schema is valid
+
+↳ Get repository content
+  GET https://api.github.com/repos/anashuhada/postman-github-api-repositories/contents [200 OK, 2.32kB, 553ms]
+  ✓  Status code is 200 OK
+  ✓  Response is in JSON format
+  ✓  Content-Type is present
+  ✓  Content-Type is 'application/json; charset=utf-8'
+  ✓  Response time is less than 2000ms
+  ✓  Response contains correct name for each field
+  ✓  Response contains correct types of data for each field
+  ✓  Response contains the correct value for each field
+  ✓  Verify 'logged_in' cookie exists
+  ✓  Verify GET request method
+  ✓  API returns the correct version
+  ✓  Verify the base URL
+  ✓  Verify request URL
+  ┌
+  │ `Using "tv4" is deprecated. Use "require('ajv')" inste
+  │ ad.`
+  └
+  ✓  Schema is valid
+
+↳ Get a content
+  GET https://api.github.com/repos/anashuhada/postman-github-api-repositories/contents/READ.md [200 OK, 2.43kB, 500ms]
+  ✓  Status code is 200 OK
+  ✓  Response is in JSON format
+  ✓  Content-Type is present
+  ✓  Content-Type is 'application/json; charset=utf-8'
+  ✓  Response time is less than 2000ms
+  ✓  Response contains correct name for each field
+  ✓  Response contains correct types of data for each field
+  ✓  Response contains the correct value for each field
+  ✓  Verify 'logged_in' cookie exists
+  ✓  Verify GET request method
+  ✓  API returns the correct version
+  ✓  Verify the base URL
+  ✓  Verify request URL
+  ┌
+  │ `Using "tv4" is deprecated. Use "require('ajv')" inste
+  │ ad.`
+  └
+  ✓  Schema is valid
+
+↳ Delete a content or file
+  DELETE https://api.github.com/repos/anashuhada/postman-github-api-repositories/contents/READ.md [200 OK, 2.68kB, 987ms]
+  ✓  Status code is 200 OK
+  ✓  Response is in JSON format
+  ✓  Content-Type is present
+  ✓  Content-Type is 'application/json; charset=utf-8'
+  ✓  Response time is less than 2000ms
+  ✓  Response contains correct name for each field
+  ✓  Response contains correct types of data for each field
+  ✓  Response contains the correct value for each field
+  ✓  Verify 'logged_in' cookie exists
+  ✓  Verify DELETE request method
+  ✓  API returns the correct version
+  ✓  Verify the base URL
+  ✓  Verify request URL
+  ┌
+  │ `Using "tv4" is deprecated. Use "require('ajv')" inste
+  │ ad.`
+  └
+  ✓  Schema is valid
+
+↳ Delete a repository
+  DELETE https://api.github.com/repos/anashuhada/postman-github-api-repositories [204 No Content, 1.16kB, 599ms]
+  ✓  Status code is 204 No Content
+  ✓  Response body is empty
+  ✓  Content-Type is not present for 204 No Content
+  ✓  Response time is less than 2000ms
+  ✓  Verify 'logged_in' cookie exists
+  ✓  Verify DELETE request method
+  ✓  API returns the correct version
+  ✓  Verify the base URL
+  ✓  Verify request URL
+
+┌─────────────────────────┬─────────────────────┬─────────────────────┐
+│                         │            executed │              failed │
+├─────────────────────────┼─────────────────────┼─────────────────────┤
+│              iterations │                   1 │                   0 │
+├─────────────────────────┼─────────────────────┼─────────────────────┤
+│                requests │                  11 │                   0 │
+├─────────────────────────┼─────────────────────┼─────────────────────┤
+│            test-scripts │                  20 │                   0 │
+├─────────────────────────┼─────────────────────┼─────────────────────┤
+│      prerequest-scripts │                  13 │                   0 │
+├─────────────────────────┼─────────────────────┼─────────────────────┤
+│              assertions │                 121 │                   0 │
+├─────────────────────────┴─────────────────────┴─────────────────────┤
+│ total run duration: 8.8s                                            │
+├─────────────────────────────────────────────────────────────────────┤
+│ total data received: 221.78kB (approx)                              │
+├─────────────────────────────────────────────────────────────────────┤
+│ average response time: 760ms [min: 500ms, max: 1231ms, s.d.: 250ms] │
+└─────────────────────────────────────────────────────────────────────┘
+Finished: SUCCESS

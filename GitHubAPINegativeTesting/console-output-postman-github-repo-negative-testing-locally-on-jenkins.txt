@@ -1,0 +1,261 @@
+Started by user anashuhada
+Running as SYSTEM
+Building in workspace /Users/anashuhada/.jenkins/workspace/postman-github-repo-negative-testing-locally
+[postman-github-repo-negative-testing-locally] $ /bin/sh -xe /var/folders/tl/5sbfnrf52pq811n30tj46bcm0000gn/T/jenkins13947364527562198154.sh
++ sed -i '' 's/{{client_id}}/****/g' '/Volumes/KINGSTON/Software Testing/GitHubAPITesting/GitHubAPINegativeTesting/GitHubAPINegativeTesting.postman_collection.json'
++ sed -i '' 's/{{client_secret}}/****/g' '/Volumes/KINGSTON/Software Testing/GitHubAPITesting/GitHubAPINegativeTesting/GitHubAPINegativeTesting.postman_collection.json'
++ sed -i '' 's/{{access_token}}/****/g' '/Volumes/KINGSTON/Software Testing/GitHubAPITesting/GitHubAPINegativeTesting/GitHubAPINegativeTesting.postman_collection.json'
++ sed -i '' 's/{{access_token_401}}/****/g' '/Volumes/KINGSTON/Software Testing/GitHubAPITesting/GitHubAPINegativeTesting/GitHubAPINegativeTesting.postman_collection.json'
+[postman-github-repo-negative-testing-locally] $ /bin/sh -xe /var/folders/tl/5sbfnrf52pq811n30tj46bcm0000gn/T/jenkins12485342944799913725.sh
++ newman run '/Volumes/KINGSTON/Software Testing/GitHubAPITesting/GitHubAPINegativeTesting/GitHubAPINegativeTesting.postman_collection.json'
+newman
+
+GitHubAPINegativeTesting
+
+❏ Creation of Access Token using OAuth Authorization
+↳ Get Authorization Code (OAuth)
+  GET https://github.com/login/oauth/authorize?client_id=****&redirect_uri=http://localhost:3000/callback&scope=public_repo, repo, delete_repo [200 OK, 44.81kB, 1137ms]
+
+↳ Create Access Token
+  POST https://github.com/login/oauth/access_token?client_id=****&client_secret=****&code={{code}} [200 OK, 4.18kB, 544ms]
+
+❏ List repositories for the authenticated user
+↳ 400 Bad Request - Incorrect HTTP Method
+  POST https://api.github.com/user/repos?visibility=public&sort=created [400 Bad Request, 1.41kB, 684ms]
+  ✓  Status code is 400 Bad Request
+  ✓  Response contains 'message' field
+  ✓  Response contains 'documentation_url' field
+  ✓  Response contains 'status' field
+
+↳ 401 Unauthorized - Invalid Authentication
+  GET https://api.github.com/user/repos?visibility=public&sort=created [401 Unauthorized, 1.17kB, 345ms]
+  ✓  Status code is 401 Unauthorized
+  ✓  Response contains 'message' field
+  ✓  Response contains 'documentation_url' field
+  ✓  Response contains 'status' field
+
+↳ 404 Not Found - Incorrect Endpoint
+  GET https://api.github.com/user/repo [404 Not Found, 1.34kB, 490ms]
+  ✓  Status code is 404 Not Found
+  ✓  Response contains 'message' field
+  ✓  Response contains 'documentation_url' field
+  ✓  Response contains 'status' field
+
+↳ 404 Not Found - Incorrect HTTP Method
+  PUT https://api.github.com/user/repos?visibility=public&sort=created [404 Not Found, 1.34kB, 540ms]
+  ✓  Status code is 404 Not Found
+  ✓  Response contains 'message' field
+  ✓  Response contains 'documentation_url' field
+  ✓  Response contains 'status' field
+
+❏ Create a repository for the authenticated user
+↳ 400 Bad Request - Missing Required Input
+  POST https://api.github.com/user/repos [400 Bad Request, 1.4kB, 738ms]
+  ✓  Status code is 400 Bad Request
+  ✓  Response contains 'message' field
+  ✓  Response contains 'documentation_url' field
+  ✓  Response contains 'status' field
+
+↳ 401 Unauthorized - Invalid Authentication
+  POST https://api.github.com/user/repos [401 Unauthorized, 1.17kB, 336ms]
+  ✓  Status code is 401 Unauthorized
+  ✓  Response contains 'message' field
+  ✓  Response contains 'documentation_url' field
+  ✓  Response contains 'status' field
+
+↳ 404 Not Found - Incorrect Endpoint
+  POST https://api.github.com/user/rep0 [404 Not Found, 1.34kB, 336ms]
+  ✓  Status code is 404 Not Found 
+  ✓  Response contains 'message' field
+  ✓  Response contains 'documentation_url' field
+  ✓  Response contains 'status' field
+
+↳ 404 Not Found - Incorrect HTTP Method
+  DELETE https://api.github.com/user/repos [404 Not Found, 1.34kB, 536ms]
+  ✓  Status code is 404 Not Found 
+  ✓  Response contains 'message' field
+  ✓  Response contains 'documentation_url' field
+  ✓  Response contains 'status' field
+
+↳ 422 Unprocessable Entity - Invalid Data Types or Formats
+  POST https://api.github.com/user/repos [422 Unprocessable Entity, 1.6kB, 837ms]
+  ✓  Status code is 422 Unprocessable Entity
+  ✓  Response contains 'message' field
+  ✓  Response contains 'errors' field
+  ✓  Response contains 'documentation_url' field
+  ✓  Response contains 'status' field
+
+❏ List repositories for a user
+↳ 401 Unauthorized - Invalid Authentication
+  GET https://api.github.com/users//repos?sort=updated [401 Unauthorized, 1.17kB, 403ms]
+  ✓  Status code is 401 Unauthorized
+  ✓  Response contains 'message' field
+  ✓  Response contains 'documentation_url' field
+  ✓  Response contains 'status' field
+
+↳ 404 Not Found - Non-existent Endpoint
+  GET https://api.github.com/users//repo [404 Not Found, 1.34kB, 481ms]
+  ✓  Status code is 404 Not Found
+  ✓  Response contains 'message' field
+  ✓  Response contains 'documentation_url' field
+  ✓  Response contains 'status' field
+
+↳ 404 Not Found - Incorrect HTTP Method
+  POST https://api.github.com/users//repos?sort=updated [404 Not Found, 1.34kB, 363ms]
+  ✓  Status code is 404 Not Found
+  ✓  Response contains 'message' field
+  ✓  Response contains 'documentation_url' field
+  ✓  Response contains 'status' field
+
+❏ Update a repository
+↳ 401 Unauthorized - Invalid Authentication
+  POST https://api.github.com/repos// [401 Unauthorized, 1.17kB, 483ms]
+  ✓  Status code is 401 Bad Request
+  ✓  Response contains 'message' field
+  ✓  Response contains 'documentation_url' field
+  ✓  Response contains 'status' field
+
+↳ 404 Not Found - Incorrect Endpoint
+  GET https://api.github.com/repo// [404 Not Found, 1.34kB, 423ms]
+  ✓  Status code is 404 Not Found
+  ✓  Response contains 'message' field
+  ✓  Response contains 'documentation_url' field
+  ✓  Response contains 'status' field
+
+↳ 404 Not Found - Incorrect HTTP Method
+  PUT https://api.github.com/repos// [404 Not Found, 1.34kB, 545ms]
+  ✓  Status code is 404 Not Found
+  ✓  Response contains 'message' field
+  ✓  Response contains 'documentation_url' field
+  ✓  Response contains 'status' field
+
+❏ Create or update file contents
+↳ 401 Unauthorized - Invalid Authentication
+  PUT https://api.github.com/repos///contents/READ.md [401 Unauthorized, 1.17kB, 364ms]
+  ✓  Status code is 401 Unauthorized
+  ✓  Response contains 'message' field
+  ✓  Response contains 'documentation_url' field
+  ✓  Response contains 'status' field
+
+↳ 404 Not Found - Incorrect Endpoint
+  PUT https://api.github.com/repo///contents/READ.md [404 Not Found, 1.34kB, 378ms]
+  ✓  Status code is 404 Not Found
+  ✓  Response contains 'message' field
+  ✓  Response contains 'documentation_url' field
+  ✓  Response contains 'status' field
+
+↳ 404 Not Found - Incorrect HTTP Method
+  POST https://api.github.com/repos///contents/READ.md [404 Not Found, 1.34kB, 400ms]
+  ✓  Status code is 404 Not Found
+  ✓  Response contains 'message' field
+  ✓  Response contains 'documentation_url' field
+  ✓  Response contains 'status' field
+
+❏ Get repository content
+↳ 401 Unauthorized - Invalid Authentication
+  GET https://api.github.com/repos///contents/READ.md [401 Unauthorized, 1.17kB, 369ms]
+  ✓  Status code is 401 Unauthorized
+  ✓  Response contains 'message' field
+  ✓  Response contains 'documentation_url' field
+  ✓  Response contains 'status' field
+
+↳ 404 Not Found - Incorrect Endpoint
+  GET https://api.github.com/repo///contents/READ.md [404 Not Found, 1.34kB, 467ms]
+  ✓  Status code is 404 Not Found
+  ✓  Response contains 'message' field
+  ✓  Response contains 'documentation_url' field
+  ✓  Response contains 'status' field
+
+↳ 404 Not Found - Incorrect HTTP Method
+  POST https://api.github.com/repos///contents/READ.md [404 Not Found, 1.34kB, 560ms]
+  ✓  Status code is 404 Not Found
+  ✓  Response contains 'message' field
+  ✓  Response contains 'documentation_url' field
+  ✓  Response contains 'status' field
+
+❏ Get a content
+↳ 401 Unauthorized - Invalid Authentication
+  GET https://api.github.com/repos///content/ [401 Unauthorized, 1.17kB, 404ms]
+  ✓  Status code is 401 Unauthorized
+  ✓  Response contains 'message' field
+  ✓  Response contains 'documentation_url' field
+  ✓  Response contains 'status' field
+
+↳ 404 Not Found - Incorrect Endpoint
+  GET https://api.github.com/repos///content/ [404 Not Found, 1.34kB, 578ms]
+  ✓  Status code is 404 Not Found
+  ✓  Response contains 'message' field
+  ✓  Response contains 'documentation_url' field
+  ✓  Response contains 'status' field
+
+↳ 404 Not Found - Incorrect HTTP Method
+  POST https://api.github.com/repos///contents/ [404 Not Found, 1.34kB, 412ms]
+  ✓  Status code is 404 Not Found
+  ✓  Response contains 'message' field
+  ✓  Response contains 'documentation_url' field
+  ✓  Response contains 'status' field
+
+❏ Delete a content or file
+↳ 401 Unauthorized - Invalid Authorization
+  DELETE https://api.github.com/repos///contents/ [401 Unauthorized, 1.17kB, 462ms]
+  ✓  Status code is 401 Unauthorized
+  ✓  Response contains 'message' field
+  ✓  Response contains 'documentation_url' field
+  ✓  Response contains 'status' field
+
+↳ 404 Not Found - Incorrect Endpoint
+  DELETE https://api.github.com/repo///contents/ [404 Not Found, 1.34kB, 379ms]
+  ✓  Status code is 404 Not Found
+  ✓  Response contains 'message' field
+  ✓  Response contains 'documentation_url' field
+  ✓  Response contains 'status' field
+
+↳ 404 Not Found - Incorrect HTTP Request
+  POST https://api.github.com/repos///contents/ [404 Not Found, 1.34kB, 378ms]
+  ✓  Status code is 404 Not Found
+  ✓  Response contains 'message' field
+  ✓  Response contains 'documentation_url' field
+  ✓  Response contains 'status' field
+
+❏ Delete a repository
+↳ 401 Unauthorized - Invalid Authentication
+  DELETE https://api.github.com/repos// [401 Unauthorized, 1.17kB, 372ms]
+  ✓  Status code is 401 Unauthorized
+  ✓  Response contains 'message' field
+  ✓  Response contains 'documentation_url' field
+  ✓  Response contains 'status' field
+
+↳ 404 Not Found - Incorrect Endpoint
+  DELETE https://api.github.com/repo// [404 Not Found, 1.34kB, 320ms]
+  ✓  Status code is 404 Not Found
+  ✓  Response contains 'message' field
+  ✓  Response contains 'documentation_url' field
+  ✓  Response contains 'status' field
+
+↳ 404 Not Found - Incorrect HTTP Method
+  GET https://api.github.com/repo// [404 Not Found, 1.34kB, 647ms]
+  ✓  Status code is 404 Not Found
+  ✓  Response contains 'message' field
+  ✓  Response contains 'documentation_url' field
+  ✓  Response contains 'status' field
+
+┌─────────────────────────┬─────────────────────┬─────────────────────┐
+│                         │            executed │              failed │
+├─────────────────────────┼─────────────────────┼─────────────────────┤
+│              iterations │                   1 │                   0 │
+├─────────────────────────┼─────────────────────┼─────────────────────┤
+│                requests │                  32 │                   0 │
+├─────────────────────────┼─────────────────────┼─────────────────────┤
+│            test-scripts │                  62 │                   0 │
+├─────────────────────────┼─────────────────────┼─────────────────────┤
+│      prerequest-scripts │                  40 │                   0 │
+├─────────────────────────┼─────────────────────┼─────────────────────┤
+│              assertions │                 121 │                   0 │
+├─────────────────────────┴─────────────────────┴─────────────────────┤
+│ total run duration: 16.7s                                           │
+├─────────────────────────────────────────────────────────────────────┤
+│ total data received: 43.59kB (approx)                               │
+├─────────────────────────────────────────────────────────────────────┤
+│ average response time: 490ms [min: 320ms, max: 1137ms, s.d.: 169ms] │
+└─────────────────────────────────────────────────────────────────────┘
+Finished: SUCCESS
